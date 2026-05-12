@@ -1,0 +1,71 @@
+@model MechanicService.Models.Customer
+
+@{
+    ViewData["Title"] = "Customer Details";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>@ViewData["Title"]</h1>
+            <hr />
+
+            <div class="card">
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Full Name</dt>
+                        <dd class="col-sm-9">@Model.FullName</dd>
+
+                        <dt class="col-sm-3">Email</dt>
+                        <dd class="col-sm-9">
+                            <a href="mailto:@Model.Email">@Model.Email</a>
+                        </dd>
+
+                        <dt class="col-sm-3">Phone</dt>
+                        <dd class="col-sm-9">@Model.Phone</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h4>Service Appointments</h4>
+                @if (Model.ServiceAppointments.Count > 0)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Vehicle</th>
+                                    <th>Appointment Date</th>
+                                    <th>Completion Date</th>
+                                    <th>Total Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var appointment in Model.ServiceAppointments)
+                                {
+                                    <tr>
+                                        <td>@appointment.Vehicle?.LicensePlate</td>
+                                        <td>@appointment.AppointmentDate.ToString("yyyy-MM-dd")</td>
+                                        <td>@appointment.CompletionDate.ToString("yyyy-MM-dd")</td>
+                                        <td>$@appointment.TotalPrice.ToString("0.00")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No appointments yet.</p>
+                }
+            </div>
+
+            <div class="mt-4">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
